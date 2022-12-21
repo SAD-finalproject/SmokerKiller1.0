@@ -17,10 +17,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		Shop shop = new Shop();
-		shop.init();
-		LoginPage lgPage = new LoginPage(shop);
-		lgPage.setVisible(true);
+		
 	}
 
 }
