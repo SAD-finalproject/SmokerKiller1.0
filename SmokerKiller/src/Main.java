@@ -1,9 +1,9 @@
-
+import java.sql.*;
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			Connection connection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sadd","root","12345678");
+			Connection connection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/sad_demo","root","12345678");
 			System.out.println("Connected successfully");
 			Shop shop = new Shop();
 			shop.init();
