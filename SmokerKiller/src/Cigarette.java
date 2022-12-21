@@ -8,13 +8,19 @@ public class Cigarette {
 		price = p;
 	}
 	public String info() {
+		String newline = System.lineSeparator();
 		String output = "";
-		output += name;
-		output += "\n";
+		output += name + "  " ;
 		output += "$" + (int)Math.ceil(price);
 		return output;
 	}
 	public void adjustPrice(double rate) {
 		price = price*rate;
+	}
+	public String getName() {
+		return name;
+	}
+	public double getPrice() {
+		return price;
 	}
 }

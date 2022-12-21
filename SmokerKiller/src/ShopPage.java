@@ -1,9 +1,13 @@
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class ShopPage extends JFrame {
 
@@ -19,7 +23,7 @@ public class ShopPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ShopPage(String id) {
+	public ShopPage(String id ,Shop shop) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 650);
@@ -29,8 +33,17 @@ public class ShopPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel(id);
-		lblNewLabel.setBounds(260, 205, 133, 82);
-		contentPane.add(lblNewLabel);
+		JLabel info1 = new JLabel(shop.info(0));
+		info1.setHorizontalAlignment(SwingConstants.CENTER);
+		info1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		info1.setBounds(31, 172, 117, 82);
+		contentPane.add(info1);
+		
+		JLabel image1 = new JLabel("");
+		image1.setBounds(31, 25, 117, 158);
+		Image sevenstar = new ImageIcon(this.getClass().getResource("/winston.jpg")).getImage().getScaledInstance(image1.getWidth(), image1.getHeight(), Image.SCALE_DEFAULT);
+		image1.setIcon(new ImageIcon(sevenstar));
+		
+		contentPane.add(image1);
 	}
 }

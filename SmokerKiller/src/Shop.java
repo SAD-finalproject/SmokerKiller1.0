@@ -21,4 +21,7 @@ public class Shop {
 		this.add(longage);
 		this.add(winston);
 	}
+	public String info(int index) {;
+		return goods.get(index).info();
+	}
 }

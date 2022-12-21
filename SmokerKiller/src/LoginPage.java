@@ -38,7 +38,7 @@ public class LoginPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginPage() {
+	public LoginPage(Shop shop) {
 		setResizable(false);
 		setBackground(new Color(255, 255, 255));
 		setTitle("菸鬼終結者1.0");
@@ -63,7 +63,7 @@ public class LoginPage extends JFrame {
 					JOptionPane.showMessageDialog(null, "格式錯誤", "格式錯誤", JOptionPane.ERROR_MESSAGE);
 				}else {
 					dispose();
-					ShopPage shopPage = new ShopPage(id);
+					ShopPage shopPage = new ShopPage(id,shop);
 					shopPage.setVisible(true);
 				}
 			}
