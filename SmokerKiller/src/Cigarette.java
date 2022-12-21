@@ -7,11 +7,14 @@ public class Cigarette {
 		name = s;
 		price = p;
 	}
-	public String printInfo() {
+	public String info() {
 		String output = "";
 		output += name;
 		output += "\n";
-		output += "$" + price;
+		output += "$" + (int)Math.ceil(price);
 		return output;
+	}
+	public void adjustPrice(double rate) {
+		price = price*rate;
 	}
 }

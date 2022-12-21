@@ -2,8 +2,10 @@
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Shop shop = new Shop();
+		shop.init();
+		LoginPage lgPage = new LoginPage();
+		lgPage.setVisible(true);
 	}
 
 }
