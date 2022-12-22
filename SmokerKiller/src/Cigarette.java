@@ -3,12 +3,11 @@ public class Cigarette {
 	private String name;
 	private double price;
 	
-	public Cigarette(String s ,double p,int stock) {
+	public Cigarette(String s ,double p) {
 		name = s;
 		price = p;
 	}
 	public String info() {
-		String newline = System.lineSeparator();
 		String output = "";
 		output += name + "  " ;
 		output += "$" + (int)Math.ceil(price);

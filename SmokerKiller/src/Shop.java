@@ -14,14 +14,22 @@ public class Shop {
 		return goods.size();
 	}
 	public void init() {
-		Cigarette seven = new Cigarette("七星", 125, 500);
-		Cigarette longage = new Cigarette("0", 0, 0);
-		Cigarette winston = new Cigarette("雲絲頓", 0, 0);
-		this.add(seven);
-		this.add(longage);
+		Cigarette winston = new Cigarette("雲絲頓", 95);
+		Cigarette seven = new Cigarette("七星", 125);
+		Cigarette pm = new Cigarette("尊爵", 100);
+		Cigarette vesta = new Cigarette("維斯塔", 100);
+		Cigarette daviddoff = new Cigarette("大衛杜夫", 100);
 		this.add(winston);
+		this.add(seven);
+		this.add(pm);
+		this.add(vesta);
+		this.add(daviddoff);
+	
 	}
 	public String info(int index) {;
 		return goods.get(index).info();
+	}
+	public void updatePrice() {
+		
 	}
 }
