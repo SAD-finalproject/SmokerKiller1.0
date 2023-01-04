@@ -29,6 +29,9 @@ public class Shop {
 	public String info(int index) {;
 		return goods.get(index).info();
 	}
+	public ArrayList<Cigarette> getGoods() {
+		return goods;
+	}
 	public void updatePrice() {
 		
 	}

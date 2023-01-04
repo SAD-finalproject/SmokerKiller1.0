@@ -38,7 +38,7 @@ public class LoginPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginPage(Shop shop) {
+	public LoginPage(Shop shop, ShoppingCart sc) {
 		setResizable(false);
 		setBackground(new Color(255, 255, 255));
 		setTitle("菸鬼終結者1.0");
@@ -60,11 +60,12 @@ public class LoginPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id = formattedTextField.getText();
 				if (id.length() != 10 | !Character.isUpperCase(id.charAt(0))) {
-					JOptionPane.showMessageDialog(null, "格式錯誤", "格式錯誤", JOptionPane.ERROR_MESSAGE);
-				}else {
+					
 					dispose();
-					ShopPage shopPage = new ShopPage(id,shop);
+					ShopPage shopPage = new ShopPage(id,shop,sc);
 					shopPage.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(null, "格式錯誤", "格式錯誤", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
