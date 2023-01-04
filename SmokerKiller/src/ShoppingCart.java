@@ -4,6 +4,7 @@ public class ShoppingCart {
 	private ArrayList<Order> orders;
 	private int quantity;
 	private int total;
+	private int price;
 	
 	public ShoppingCart(int t) {
 		quantity = 0;
@@ -15,6 +16,7 @@ public class ShoppingCart {
 		orders.add(n);
 		quantity++;
 		total++;
+		price += a.getPrice();
 	}
 	public void printResult() {
 		for (int i = 0; i < orders.size(); i++) {
@@ -24,4 +26,8 @@ public class ShoppingCart {
 	public int getQuantity() {
 		return quantity;
 	}
+	public int getPrice() {
+		return price;
+	}
+	
 }

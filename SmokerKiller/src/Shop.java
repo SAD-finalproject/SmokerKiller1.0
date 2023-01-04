@@ -19,11 +19,13 @@ public class Shop {
 		Cigarette pm = new Cigarette("尊爵", 100);
 		Cigarette vesta = new Cigarette("維斯塔", 100);
 		Cigarette daviddoff = new Cigarette("大衛杜夫", 100);
+		Cigarette lucky = new Cigarette("藍LS", 90);
 		this.add(winston);
 		this.add(seven);
 		this.add(pm);
 		this.add(vesta);
 		this.add(daviddoff);
+		this.add(lucky);
 	
 	}
 	public String info(int index) {;

@@ -4,6 +4,7 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Component;
@@ -16,17 +17,29 @@ import javax.swing.JButton;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class ShopPage extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+	}
+	public void addTable(String name, double p) {
+		DefaultTableModel dt = (DefaultTableModel) table.getModel();
+		
+		Vector v = new Vector();
+		
+		v.add(name);
+		v.add(p);
+		
+		dt.addRow(v);
 		
 	}
 
@@ -37,7 +50,7 @@ public class ShopPage extends JFrame {
 		setTitle("商店");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1125, 525);
+		setBounds(100, 100, 1125, 790);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -71,16 +84,22 @@ public class ShopPage extends JFrame {
 		contentPane.add(pm);
 		
 		JLabel vesta = new JLabel("");
-		vesta.setBounds(744, 111, 117, 178);
+		vesta.setBounds(30, 449, 117, 178);
 		Image vestaImage = new ImageIcon(this.getClass().getResource("/vesta.jpeg")).getImage().getScaledInstance(winston.getWidth(), winston.getHeight(), Image.SCALE_DEFAULT);
 		vesta.setIcon(new ImageIcon(vestaImage));
 		contentPane.add(vesta);
 		
 		JLabel daviddoff = new JLabel("");
-		daviddoff.setBounds(982, 111, 117, 178);
+		daviddoff.setBounds(268, 449, 117, 178);
 		Image daviddoffImage = new ImageIcon(this.getClass().getResource("/daviddoff.jpeg")).getImage().getScaledInstance(winston.getWidth(), winston.getHeight(), Image.SCALE_DEFAULT);
 		daviddoff.setIcon(new ImageIcon(daviddoffImage));
 		contentPane.add(daviddoff);
+		
+		JLabel lucky = new JLabel("");
+		lucky.setBounds(506, 443, 117, 178);
+		Image luckyImage = new ImageIcon(this.getClass().getResource("/lucky.PNG")).getImage().getScaledInstance(winston.getWidth(), winston.getHeight(), Image.SCALE_DEFAULT);
+		lucky.setIcon(new ImageIcon(luckyImage));
+		contentPane.add(lucky);
 		
 		JLabel sevenstarInfo = new JLabel(shop.info(1));
 		sevenstarInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
@@ -100,20 +119,37 @@ public class ShopPage extends JFrame {
 		vestaInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		vestaInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		vestaInfo.setAlignmentX(0.5f);
-		vestaInfo.setBounds(744, 274, 117, 82);
+		vestaInfo.setBounds(30, 606, 117, 82);
 		contentPane.add(vestaInfo);
 		
 		JLabel daviddoffInfo = new JLabel(shop.info(4));
 		daviddoffInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
 		daviddoffInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		daviddoffInfo.setAlignmentX(0.5f);
-		daviddoffInfo.setBounds(982, 274, 117, 82);
+		daviddoffInfo.setBounds(268, 606, 117, 82);
 		contentPane.add(daviddoffInfo);
 		
+		JLabel luckyInfo = new JLabel(shop.info(5));
+		luckyInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		luckyInfo.setFont(new Font("Trebuchet MS", Font.BOLD, 13));
+		luckyInfo.setBackground(Color.WHITE);
+		luckyInfo.setAlignmentX(0.5f);
+		luckyInfo.setBounds(506, 606, 117, 82);
+		contentPane.add(luckyInfo);
+		
+		
+		
 		JLabel sum = new JLabel("目前購買數量: " +sc.getQuantity());
-		sum.setFont(new Font("微軟正黑體", Font.PLAIN, 30));
-		sum.setBounds(770, 423, 251, 55);
+		sum.setHorizontalAlignment(SwingConstants.CENTER);
+		sum.setFont(new Font("微軟正黑體", Font.PLAIN, 15));
+		sum.setBounds(770, 665, 251, 29);
 		contentPane.add(sum);
+		
+		JLabel sum_1 = new JLabel("目前價格: $" + sc.getPrice());
+		sum_1.setHorizontalAlignment(SwingConstants.CENTER);
+		sum_1.setFont(new Font("微軟正黑體", Font.PLAIN, 15));
+		sum_1.setBounds(770, 691, 251, 29);
+		contentPane.add(sum_1);
 		
 		JComboBox comboBox1 = new JComboBox();
 		comboBox1.setEditable(true);
@@ -138,8 +174,11 @@ public class ShopPage extends JFrame {
 				
 				for (int i = 0; i < quantity; i++) {
 					sc.add(shop.getGoods().get(0));
+					addTable(shop.getGoods().get(0).getName(), (int)Math.ceil(shop.getGoods().get(0).getPrice()));
 					shop.getGoods().get(0).adjustPrice(1.2);
 					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
+					
 				}
 				sc.printResult();
 			}
@@ -172,8 +211,11 @@ public class ShopPage extends JFrame {
 				
 				for (int i = 0; i < quantity; i++) {
 					sc.add(shop.getGoods().get(1));
+					addTable(shop.getGoods().get(1).getName(), (int)Math.ceil(shop.getGoods().get(1).getPrice()));
 					shop.getGoods().get(1).adjustPrice(1.2);
 					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
+					
 				}
 				sc.printResult();
 			}
@@ -208,6 +250,7 @@ public class ShopPage extends JFrame {
 					sc.add(shop.getGoods().get(2));
 					shop.getGoods().get(2).adjustPrice(1.2);
 					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
 				}
 				sc.printResult();
 			}
@@ -220,7 +263,7 @@ public class ShopPage extends JFrame {
 		JComboBox comboBox1_3 = new JComboBox();
 		comboBox1_3.setEditable(true);
 		comboBox1_3.setBackground(Color.WHITE);
-		comboBox1_3.setBounds(744, 333, 96, 23);
+		comboBox1_3.setBounds(30, 665, 96, 23);
 		comboBox1_3.addItem("1");
 		comboBox1_3.addItem("2");
 		comboBox1_3.addItem("3");
@@ -242,19 +285,20 @@ public class ShopPage extends JFrame {
 					sc.add(shop.getGoods().get(3));
 					shop.getGoods().get(3).adjustPrice(1.2);
 					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
 				}
 				sc.printResult();
 			}
 		});
 		scButton1_3.setBackground(Color.WHITE);
-		scButton1_3.setBounds(838, 333, 23, 23);
+		scButton1_3.setBounds(124, 665, 23, 23);
 		scButton1_3.setIcon(new ImageIcon(getClass().getResource("/1616.png")));
 		contentPane.add(scButton1_3);
 		
 		JComboBox comboBox1_4 = new JComboBox();
 		comboBox1_4.setEditable(true);
 		comboBox1_4.setBackground(Color.WHITE);
-		comboBox1_4.setBounds(984, 333, 96, 23);
+		comboBox1_4.setBounds(268, 665, 96, 23);
 		comboBox1_4.addItem("1");
 		comboBox1_4.addItem("2");
 		comboBox1_4.addItem("3");
@@ -276,26 +320,92 @@ public class ShopPage extends JFrame {
 					sc.add(shop.getGoods().get(4));
 					shop.getGoods().get(4).adjustPrice(1.2);
 					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
+					
 				}
 				sc.printResult();
 			}
 		});
 		scButton1_4.setBackground(Color.WHITE);
-		scButton1_4.setBounds(1078, 333, 23, 23);
+		scButton1_4.setBounds(362, 665, 23, 23);
 		scButton1_4.setIcon(new ImageIcon(getClass().getResource("/1616.png")));
 		contentPane.add(scButton1_4);
 		
+		JComboBox comboBox1_5 = new JComboBox();
+		comboBox1_5.setEditable(true);
+		comboBox1_5.setBackground(Color.WHITE);
+		comboBox1_5.setBounds(506, 665, 96, 23);
+		comboBox1_5.addItem("1");
+		comboBox1_5.addItem("2");
+		comboBox1_5.addItem("3");
+		comboBox1_5.addItem("4");
+		comboBox1_5.addItem("5");
+		comboBox1_5.addItem("6");
+		comboBox1_5.addItem("7");
+		comboBox1_5.addItem("8");
+		comboBox1_5.addItem("9");
+		comboBox1_5.addItem("10");
+		contentPane.add(comboBox1_5);
+		
+		JButton scButton1_5 = new JButton("");
+		scButton1_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int quantity =Integer.valueOf ((String)comboBox1_5.getSelectedItem());
+				
+				for (int i = 0; i < quantity; i++) {
+					sc.add(shop.getGoods().get(5));
+					shop.getGoods().get(5).adjustPrice(1.2);
+					sum.setText("目前購買數量: " +sc.getQuantity());
+					sum_1.setText("目前價格: $" + sc.getPrice());
+					
+				}
+				sc.printResult();
+			}
+		});
+		scButton1_5.setBackground(Color.WHITE);
+		scButton1_5.setBounds(600, 665, 23, 23);
+		scButton1_5.setIcon(new ImageIcon(getClass().getResource("/1616.png")));
+		contentPane.add(scButton1_5);
+		
 		JLabel lblNewLabel = new JLabel("購買人:" + id);
-		lblNewLabel.setFont(new Font("微軟正黑體", Font.BOLD, 30));
-		lblNewLabel.setBounds(30, 33, 402, 29);
+		lblNewLabel.setFont(new Font("微軟正黑體", Font.BOLD, 20));
+		lblNewLabel.setBounds(30, 10, 402, 29);
 		contentPane.add(lblNewLabel);
 		
 		
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(1019, 423, 55, 55);
+		btnNewButton.setBounds(1027, 665, 55, 55);
 		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/right-arrow.png")));
 		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel_1 = new JLabel("上週購買包數: ");
+		lblNewLabel_1.setFont(new Font("微軟正黑體", Font.BOLD, 20));
+		lblNewLabel_1.setBounds(30, 40, 402, 29);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("本周已購包數:  ");
+		lblNewLabel_1_1.setFont(new Font("微軟正黑體", Font.BOLD, 20));
+		lblNewLabel_1_1.setBounds(30, 70, 402, 29);
+		contentPane.add(lblNewLabel_1_1);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(699, 111, 383, 513);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		table.setFont(new Font("微軟正黑體", Font.PLAIN, 12));
+		scrollPane.setViewportView(table);
+		table.setBackground(Color.WHITE);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"\u54C1\u540D", "\u50F9\u683C"
+			}
+		));
+		
+
 	}
 }

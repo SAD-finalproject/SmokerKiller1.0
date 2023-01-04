@@ -31,10 +31,7 @@ public class LoginPage extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
