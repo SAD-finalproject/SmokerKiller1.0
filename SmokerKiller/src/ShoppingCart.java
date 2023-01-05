@@ -6,17 +6,16 @@ public class ShoppingCart {
 	private int total;
 	private int price;
 	
-	public ShoppingCart(int t) {
+	public ShoppingCart() {
 		quantity = 0;
-		total = t;
 		orders  = new ArrayList<Order>();
 	}
-	public void add(Cigarette a) {
-		Order n = new Order(a.getName(), a.getPrice());
-		orders.add(n);
+	public void add(String n, double p) {
+		Order o = new Order(n, p);
+		orders.add(o);
 		quantity++;
 		total++;
-		price += a.getPrice();
+		price += p;
 	}
 	public void printResult() {
 		for (int i = 0; i < orders.size(); i++) {

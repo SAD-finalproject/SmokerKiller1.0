@@ -46,7 +46,8 @@ public class ShopPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ShopPage(String id ,Shop shop,ShoppingCart sc) {
+	public ShopPage(String id ,Shop shop,ShoppingCart sc, User user) {
+		
 		setTitle("商店");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +57,16 @@ public class ShopPage extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel lastWeek = new JLabel("上週購買包數: " + user.getLimit());
+		lastWeek.setFont(new Font("微軟正黑體", Font.BOLD, 20));
+		lastWeek.setBounds(30, 40, 402, 29);
+		contentPane.add(lastWeek);
+		
+		JLabel thisWeek = new JLabel("本周已購包數: " + user.getHaveBought());
+		thisWeek.setFont(new Font("微軟正黑體", Font.BOLD, 20));
+		thisWeek.setBounds(30, 70, 402, 29);
+		contentPane.add(thisWeek);
 		
 		JLabel WinstonInfo = new JLabel(shop.info(0));
 		WinstonInfo.setBackground(SystemColor.text);
@@ -173,14 +184,16 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(0));
-					addTable(shop.getGoods().get(0).getName(), (int)Math.ceil(shop.getGoods().get(0).getPrice()));
-					shop.getGoods().get(0).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(0).getName();
+					double price = shop.getGoods().get(0).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 					
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1.setBackground(SystemColor.window);
@@ -210,14 +223,16 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1_1.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(1));
-					addTable(shop.getGoods().get(1).getName(), (int)Math.ceil(shop.getGoods().get(1).getPrice()));
-					shop.getGoods().get(1).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(1).getName();
+					double price = shop.getGoods().get(1).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 					
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1_1.setBackground(Color.WHITE);
@@ -247,12 +262,15 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1_2.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(2));
-					shop.getGoods().get(2).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(2).getName();
+					double price = shop.getGoods().get(2).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1_2.setBackground(Color.WHITE);
@@ -282,12 +300,15 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1_3.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(3));
-					shop.getGoods().get(3).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(3).getName();
+					double price = shop.getGoods().get(3).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1_3.setBackground(Color.WHITE);
@@ -317,13 +338,16 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1_4.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(4));
-					shop.getGoods().get(4).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(4).getName();
+					double price = shop.getGoods().get(4).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 					
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1_4.setBackground(Color.WHITE);
@@ -353,13 +377,16 @@ public class ShopPage extends JFrame {
 				int quantity =Integer.valueOf ((String)comboBox1_5.getSelectedItem());
 				
 				for (int i = 0; i < quantity; i++) {
-					sc.add(shop.getGoods().get(5));
-					shop.getGoods().get(5).adjustPrice(1.2);
+					user.buy();
+					String name = shop.getGoods().get(5).getName();
+					double price = shop.getGoods().get(5).getPrice()*user.calcPenalty();
+					sc.add(name,price);
+					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
 					
 				}
-				sc.printResult();
+				
 			}
 		});
 		scButton1_5.setBackground(Color.WHITE);
@@ -380,15 +407,7 @@ public class ShopPage extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/right-arrow.png")));
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("上週購買包數: ");
-		lblNewLabel_1.setFont(new Font("微軟正黑體", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(30, 40, 402, 29);
-		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("本周已購包數:  ");
-		lblNewLabel_1_1.setFont(new Font("微軟正黑體", Font.BOLD, 20));
-		lblNewLabel_1_1.setBounds(30, 70, 402, 29);
-		contentPane.add(lblNewLabel_1_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(699, 111, 383, 513);

@@ -1,5 +1,8 @@
 import java.awt.EventQueue;
 
+import java.util.*;
+import java.text.*;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,7 +25,13 @@ import javax.swing.DropMode;
 import javax.swing.JFormattedTextField;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
+import org.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class LoginPage extends JFrame {
 
@@ -35,7 +44,7 @@ public class LoginPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginPage(Shop shop, ShoppingCart sc) {
+	public LoginPage(Shop shop, ShoppingCart sc, Date todaysDate) {
 		setResizable(false);
 		setBackground(new Color(255, 255, 255));
 		setTitle("菸鬼終結者1.0");
@@ -57,12 +66,48 @@ public class LoginPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String id = formattedTextField.getText();
 				if (id.length() != 10 | !Character.isUpperCase(id.charAt(0))) {
-					
-					dispose();
-					ShopPage shopPage = new ShopPage(id,shop,sc);
-					shopPage.setVisible(true);
-				}else {
 					JOptionPane.showMessageDialog(null, "格式錯誤", "格式錯誤", JOptionPane.ERROR_MESSAGE);
+					
+				}else {
+					int boughtThisWeek = 0;
+					int boughtLastWeek = 0;
+					Workbook book;
+					try {
+						book = new XSSFWorkbook(this.getClass().getResourceAsStream("/luckylucky.xlsx"));
+						XSSFSheet shhet =  (XSSFSheet) book.getSheetAt(0);
+						
+						for (Row cells : shhet) {
+							
+							try {
+								if(cells.getCell(0).getStringCellValue().equals(id)) {
+									String date = cells.getCell(2).getStringCellValue();
+									Date seven = new Date(todaysDate.getTime() - (long)7 * 24 * 60 * 60 * 1000);
+									Date twoWeek = new Date(todaysDate.getTime() - (long)14 * 24 * 60 * 60 * 1000);
+									SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+									Date com = ft.parse(date);
+									int a = (int) cells.getCell(1).getNumericCellValue();
+									if (com.compareTo(seven) >= 0) {
+										boughtThisWeek += a;
+									}else if(com.compareTo(twoWeek)>=0 && com.compareTo(seven)<=0){
+										boughtLastWeek += a;
+									}
+									
+									
+								}
+								
+							} catch (NullPointerException | ParseException NPE) {
+
+							}
+							
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					User user = new User(id, boughtLastWeek, boughtThisWeek);
+					dispose();
+					ShopPage shopPage = new ShopPage(id,shop,sc,user);
+					shopPage.setVisible(true);
 				}
 			}
 		});
