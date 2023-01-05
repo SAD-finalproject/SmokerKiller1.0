@@ -13,4 +13,10 @@ public class Order {
 		output += "$" + (int)Math.ceil(price);
 		return output;
 	}
+	public String getName() {
+		return name;
+	}
+	public double getPrice() {
+		return price;
+	}
 }

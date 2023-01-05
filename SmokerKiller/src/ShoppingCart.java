@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ShoppingCart {
 	private ArrayList<Order> orders;
@@ -17,16 +18,24 @@ public class ShoppingCart {
 		total++;
 		price += p;
 	}
-	public void printResult() {
-		for (int i = 0; i < orders.size(); i++) {
-			System.out.println(orders.get(i).info());
-		}
-	}
+	
 	public int getQuantity() {
 		return quantity;
 	}
 	public int getPrice() {
 		return price;
+	}
+	public void deleteLast(double p) {
+		orders.remove(orders.size()-1);
+		quantity--;
+		total--;
+		price -= p;
+	}
+	public void printResult() {
+		for (Order order : orders) {
+			System.out.println(order.getName() + "   $" + order.getPrice());
+		}
+		
 	}
 	
 }

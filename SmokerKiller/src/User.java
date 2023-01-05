@@ -38,4 +38,8 @@ public class User {
 	public void setHaveBought(int haveBought) {
 		this.haveBought = haveBought;
 	}
+	public String getId() {
+		return id;
+	}
+
 }

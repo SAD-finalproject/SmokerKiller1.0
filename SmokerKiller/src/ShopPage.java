@@ -5,6 +5,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.logging.log4j.core.tools.picocli.CommandLine.Help.TextTable.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
+
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Component;
@@ -17,14 +27,22 @@ import javax.swing.JButton;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+
+import java.util.*;
+import java.text.*;
 
 public class ShopPage extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-
+	private double lastPrice;
 	/**
 	 * Launch the application.
 	 */
@@ -63,7 +81,7 @@ public class ShopPage extends JFrame {
 		lastWeek.setBounds(30, 40, 402, 29);
 		contentPane.add(lastWeek);
 		
-		JLabel thisWeek = new JLabel("本周已購包數: " + user.getHaveBought());
+		JLabel thisWeek = new JLabel("本週已購包數: " + user.getHaveBought());
 		thisWeek.setFont(new Font("微軟正黑體", Font.BOLD, 20));
 		thisWeek.setBounds(30, 70, 402, 29);
 		contentPane.add(thisWeek);
@@ -187,7 +205,7 @@ public class ShopPage extends JFrame {
 					user.buy();
 					String name = shop.getGoods().get(0).getName();
 					double price = shop.getGoods().get(0).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -225,8 +243,8 @@ public class ShopPage extends JFrame {
 				for (int i = 0; i < quantity; i++) {
 					user.buy();
 					String name = shop.getGoods().get(1).getName();
-					double price = shop.getGoods().get(1).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					double price = shop.getGoods().get(1).getPrice()*user.calcPenalty();				
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -265,7 +283,7 @@ public class ShopPage extends JFrame {
 					user.buy();
 					String name = shop.getGoods().get(2).getName();
 					double price = shop.getGoods().get(2).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -302,8 +320,8 @@ public class ShopPage extends JFrame {
 				for (int i = 0; i < quantity; i++) {
 					user.buy();
 					String name = shop.getGoods().get(3).getName();
-					double price = shop.getGoods().get(3).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					double price = shop.getGoods().get(3).getPrice()*user.calcPenalty();					
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -341,7 +359,7 @@ public class ShopPage extends JFrame {
 					user.buy();
 					String name = shop.getGoods().get(4).getName();
 					double price = shop.getGoods().get(4).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -380,7 +398,7 @@ public class ShopPage extends JFrame {
 					user.buy();
 					String name = shop.getGoods().get(5).getName();
 					double price = shop.getGoods().get(5).getPrice()*user.calcPenalty();
-					sc.add(name,price);
+					sc.add(name,Math.ceil(price));
 					addTable(name, (int)Math.ceil(price));
 					sum.setText("目前購買數量: " +sc.getQuantity());
 					sum_1.setText("目前價格: $" + sc.getPrice());
@@ -402,9 +420,46 @@ public class ShopPage extends JFrame {
 		
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Workbook book;
+				try {
+					book = new XSSFWorkbook(this.getClass().getResourceAsStream("/luckylucky.xlsx"));
+					XSSFSheet sheet =  (XSSFSheet) book.getSheetAt(0);
+					int currentRow = sheet.getLastRowNum()+1;
+					int currentCell = 0;
+					
+					Row row = sheet.createRow(sheet.getLastRowNum()+1);
+					org.apache.poi.ss.usermodel.Cell id = row.createCell(0);
+					org.apache.poi.ss.usermodel.Cell amount = row.createCell(1);
+					org.apache.poi.ss.usermodel.Cell date = row.createCell(2);
+					id.setCellValue(user.getId());
+					amount.setCellValue(sc.getQuantity());
+					Date d = new Date();
+					SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+					String todaysDate = ft.format(d);
+					date.setCellValue(todaysDate);
+					
+					try {
+					    FileOutputStream fos = new FileOutputStream(new File("/Users/home/git/SmokerKiller1.0/SmokerKiller/images/luckylucky.xlsx"));
+					    book.write(fos);
+					    fos.flush();
+					    fos.close();
+					} catch (IOException e2) {
+					    e2.printStackTrace();
+					}
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				sc.printResult();
+				dispose();
+			}
+		});
 		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(1027, 665, 55, 55);
-		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/right-arrow.png")));
+		btnNewButton.setBounds(1008, 655, 70, 70);
+		btnNewButton.setIcon(new ImageIcon(getClass().getResource("/next.png")));
 		contentPane.add(btnNewButton);
 		
 		
@@ -424,6 +479,25 @@ public class ShopPage extends JFrame {
 				"\u54C1\u540D", "\u50F9\u683C"
 			}
 		));
+		
+		JButton btnNewButton_1 = new JButton("刪除最後一筆");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dt = (DefaultTableModel) table.getModel();
+				int rw = table.getRowCount()-1;
+				lastPrice = (double) table.getValueAt(rw, 1);
+				dt.removeRow(rw);
+				user.rebuy();
+				
+				sc.deleteLast(lastPrice);
+				sum.setText("目前購買數量: " +sc.getQuantity());
+				sum_1.setText("目前價格: $" + sc.getPrice());
+				//String r = dt.getValueAt(table.getSelectedRow(), 0).toString();
+				
+			}
+		});
+		btnNewButton_1.setBounds(965, 624, 117, 29);
+		contentPane.add(btnNewButton_1);
 		
 
 	}
